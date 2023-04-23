@@ -97,6 +97,11 @@ class Film
     {
         return $this->year;
     }
+
+    public function getIsPremium(): bool
+    {
+        return $this->isPremium;
+    }
 }
 
 ?>
