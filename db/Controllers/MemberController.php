@@ -14,7 +14,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -33,7 +33,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -49,7 +49,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -69,7 +69,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
