@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/User.php';
+include_once 'db/Objects/Member.php';
 
-class UserController extends Controller
+class MemberController extends Controller
 {
 
     public function insert($title)
@@ -16,12 +18,11 @@ class UserController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `user`(`id_subscription`, `login`, `password`, `balance`) VALUES ('?','?','?','?','?')");
-            $id_subscription = trim($title->getIdSubscription());
-            $login = trim($title->getLogin());
-            $password = trim($title->getPassword());
-            $balance = trim($title->getBalance());
-            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance);
+            $insert = $connection->prepare("INSERT INTO `member`(`role`, `first_name`, `last_name`) VALUES ('?', '?','?')");
+            $role = trim($title->getRole());
+            $first_name = trim($title->getFirstName());
+            $last_name = trim($title->getLastName());
+            $insert->bind_param("ssd", $role, $first_name, $last_name);
             $insert->execute();
         } finally {
             $connection->close();
@@ -36,7 +37,7 @@ class UserController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `user` WHERE `id`='?'");
+            $delete = $connection->prepare("DELETE FROM `member` WHERE `id`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -52,14 +53,13 @@ class UserController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("UPDATE `user` SET `id_subscription`='?',`login`='?',`password`='?',`balance`='?' WHERE `id`='?'");
-            $id_subscription = trim($title->getIdSubscription());
-            $login = trim($title->getLogin());
-            $password = trim($title->getPassword());
-            $balance = trim($title->getBalance());
-            $id = trim($title->getId());
-            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance, $id);
-            $insert->execute();
+            $update = $connection->prepare("UPDATE `member` SET `role`='?',`first_name`='?',`last_name`='?' WHERE `id_member`='?'");
+            $role = trim($title->getRole());
+            $first_name = trim($title->getFirstName());
+            $last_name = trim($title->getLastName());
+            $id_member = trim($title->getIdMember());
+            $update->bind_param("ssdi", $role, $first_name, $last_name, $id_member);
+            $update->execute();
         } finally {
             $connection->close();
         }
@@ -73,7 +73,7 @@ class UserController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `user`");
+            $select = $connection->prepare("SELECT * FROM `member`");
             $select->get_result();
         } finally {
             $connection->close();

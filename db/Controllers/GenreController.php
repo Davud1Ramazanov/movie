@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Rating.php';
+include_once 'db/Objects/Genre.php';
 
-class RatingController extends Controller
+class GenreController extends Controller
 {
 
     public function insert($title)
@@ -16,10 +18,9 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `rating`(`likes`, `dislikes`) VALUES ('?','?')");
-            $likes = trim($title->getLikes());
-            $dislikes = trim($title->getDislikes());
-            $insert->bind_param("ssd", $likes, $dislikes);
+            $insert = $connection->prepare("INSERT INTO `genre`(`genre`) VALUES ('?')");
+            $genre = trim($title->getGenre());
+            $insert->bind_param("ssd", $genre);
             $insert->execute();
         } finally {
             $connection->close();
@@ -34,7 +35,7 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `rating` WHERE `id_rating`='?'");
+            $delete = $connection->prepare("DELETE FROM `genre` WHERE `id_genre`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -50,11 +51,10 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `rating` SET `likes`='?',`dislikes`='?' WHERE `id_rating`='?'");
-            $likes = trim($title->getLikes());
-            $dislikes = trim($title->getDislikes());
-            $id_rating = trim($title->getIdRating());
-            $update->bind_param("ssd", $likes, $dislikes, $id_rating);
+            $update = $connection->prepare("UPDATE `genre` SET `genre`='?' WHERE `id_genre`='?'");
+            $genre = trim($title->getGenre());
+            $id_genre = trim($title->getIdGenre());
+            $update->bind_param("ssdi", $genre, $id_genre);
             $update->execute();
         } finally {
             $connection->close();
@@ -69,8 +69,9 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `rating`");
+            $select = $connection->prepare("SELECT * FROM `genre`");
             $select->get_result();
+
         } finally {
             $connection->close();
         }

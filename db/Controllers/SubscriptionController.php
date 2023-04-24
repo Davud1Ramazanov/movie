@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Genre.php';
+include_once 'db/Objects/Subscription.php';
 
-class GenreController extends Controller
+class SubscriptionController extends Controller
 {
 
     public function insert($title)
@@ -16,9 +18,10 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `genre`(`genre`) VALUES ('?')");
-            $genre = trim($title->getGenre());
-            $insert->bind_param("ssd", $genre);
+            $insert = $connection->prepare("INSERT INTO `subscription`(`name`, `price`) VALUES ('?', '?')");
+            $name = trim($title->getName());
+            $price = trim($title->getPrice());
+            $insert->bind_param("ssd", $name, $price);
             $insert->execute();
         } finally {
             $connection->close();
@@ -33,7 +36,7 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `genre` WHERE `id_genre`='?'");
+            $delete = $connection->prepare("DELETE FROM `subscription` WHERE `id_subscription`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -49,10 +52,11 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `genre` SET `genre`='?' WHERE `id_genre`='?'");
-            $genre = trim($title->getGenre());
-            $id_genre = trim($title->getIdGenre());
-            $update->bind_param("ssdi", $genre, $id_genre);
+            $update = $connection->prepare("UPDATE `subscription` SET `Name`='?',`Price`='?' WHERE `id_subscription`='?'");
+            $name = trim($title->getName());
+            $price = trim($title->getPrice());
+            $id_subscription = trim(($title->getIdSubscription()));
+            $update->bind_param("ssdi", $name, $price, $id_subscription);
             $update->execute();
         } finally {
             $connection->close();
@@ -67,9 +71,8 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `genre`");
+            $select = $connection->prepare("SELECT * FROM `subscription`");
             $select->get_result();
-
         } finally {
             $connection->close();
         }

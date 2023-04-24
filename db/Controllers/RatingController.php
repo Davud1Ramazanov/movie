@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Subscription.php';
+include_once 'db/Objects/Rating.php';
 
-class SubscriptionController extends Controller
+class RatingController extends Controller
 {
 
     public function insert($title)
@@ -16,10 +18,10 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `subscription`(`name`, `price`) VALUES ('?', '?')");
-            $name = trim($title->getName());
-            $price = trim($title->getPrice());
-            $insert->bind_param("ssd", $name, $price);
+            $insert = $connection->prepare("INSERT INTO `rating`(`likes`, `dislikes`) VALUES ('?','?')");
+            $likes = trim($title->getLikes());
+            $dislikes = trim($title->getDislikes());
+            $insert->bind_param("ssd", $likes, $dislikes);
             $insert->execute();
         } finally {
             $connection->close();
@@ -34,7 +36,7 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `subscription` WHERE `id_subscription`='?'");
+            $delete = $connection->prepare("DELETE FROM `rating` WHERE `id_rating`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -50,11 +52,11 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `subscription` SET `Name`='?',`Price`='?' WHERE `id_subscription`='?'");
-            $name = trim($title->getName());
-            $price = trim($title->getPrice());
-            $id_subscription = trim(($title->getIdSubscription()));
-            $update->bind_param("ssdi", $name, $price, $id_subscription);
+            $update = $connection->prepare("UPDATE `rating` SET `likes`='?',`dislikes`='?' WHERE `id_rating`='?'");
+            $likes = trim($title->getLikes());
+            $dislikes = trim($title->getDislikes());
+            $id_rating = trim($title->getIdRating());
+            $update->bind_param("ssd", $likes, $dislikes, $id_rating);
             $update->execute();
         } finally {
             $connection->close();
@@ -69,7 +71,7 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `subscription`");
+            $select = $connection->prepare("SELECT * FROM `rating`");
             $select->get_result();
         } finally {
             $connection->close();

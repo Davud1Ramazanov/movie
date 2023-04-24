@@ -1,9 +1,11 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Film.php';
+include_once 'db/Objects/Film.php';
 
 class FilmController extends Controller
 {

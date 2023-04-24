@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Role.php';
+include_once 'db/Objects/User.php';
 
-class RoleController extends Controller
+class UserController extends Controller
 {
 
     public function insert($title)
@@ -16,9 +18,12 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `role`(`role`) VALUES ('?')");
-            $role = trim($title->getRole());
-            $insert->bind_param("ssd", $role);
+            $insert = $connection->prepare("INSERT INTO `user`(`id_subscription`, `login`, `password`, `balance`) VALUES ('?','?','?','?','?')");
+            $id_subscription = trim($title->getIdSubscription());
+            $login = trim($title->getLogin());
+            $password = trim($title->getPassword());
+            $balance = trim($title->getBalance());
+            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance);
             $insert->execute();
         } finally {
             $connection->close();
@@ -33,7 +38,7 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `role` WHERE `id_role`='?'");
+            $delete = $connection->prepare("DELETE FROM `user` WHERE `id`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -49,11 +54,14 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `role` SET `role`='?' WHERE `id_role`='?'");
-            $role = trim($title->getRole());
-            $id_role = trim($title->getIdRole());
-            $update->bind_param("ssdi", $role, $id_role);
-            $update->execute();
+            $insert = $connection->prepare("UPDATE `user` SET `id_subscription`='?',`login`='?',`password`='?',`balance`='?' WHERE `id`='?'");
+            $id_subscription = trim($title->getIdSubscription());
+            $login = trim($title->getLogin());
+            $password = trim($title->getPassword());
+            $balance = trim($title->getBalance());
+            $id = trim($title->getId());
+            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance, $id);
+            $insert->execute();
         } finally {
             $connection->close();
         }
@@ -67,7 +75,7 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `role`");
+            $select = $connection->prepare("SELECT * FROM `user`");
             $select->get_result();
         } finally {
             $connection->close();

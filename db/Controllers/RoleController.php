@@ -1,11 +1,13 @@
 <?php
 
-namespace Controllers;
+namespace db\Controllers;
+
+use Controllers\mysqli;
 
 include_once 'Controller.php';
-include_once 'ORM/db/Objects/Member.php';
+include_once 'db/Objects/Role.php';
 
-class MemberController extends Controller
+class RoleController extends Controller
 {
 
     public function insert($title)
@@ -16,11 +18,9 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `member`(`role`, `first_name`, `last_name`) VALUES ('?', '?','?')");
+            $insert = $connection->prepare("INSERT INTO `role`(`role`) VALUES ('?')");
             $role = trim($title->getRole());
-            $first_name = trim($title->getFirstName());
-            $last_name = trim($title->getLastName());
-            $insert->bind_param("ssd", $role, $first_name, $last_name);
+            $insert->bind_param("ssd", $role);
             $insert->execute();
         } finally {
             $connection->close();
@@ -35,7 +35,7 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `member` WHERE `id`='?'");
+            $delete = $connection->prepare("DELETE FROM `role` WHERE `id_role`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -51,12 +51,10 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `member` SET `role`='?',`first_name`='?',`last_name`='?' WHERE `id_member`='?'");
+            $update = $connection->prepare("UPDATE `role` SET `role`='?' WHERE `id_role`='?'");
             $role = trim($title->getRole());
-            $first_name = trim($title->getFirstName());
-            $last_name = trim($title->getLastName());
-            $id_member = trim($title->getIdMember());
-            $update->bind_param("ssdi", $role, $first_name, $last_name, $id_member);
+            $id_role = trim($title->getIdRole());
+            $update->bind_param("ssdi", $role, $id_role);
             $update->execute();
         } finally {
             $connection->close();
@@ -71,7 +69,7 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `member`");
+            $select = $connection->prepare("SELECT * FROM `role`");
             $select->get_result();
         } finally {
             $connection->close();
