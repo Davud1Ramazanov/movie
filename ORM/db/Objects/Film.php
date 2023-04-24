@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Film
 {
     private int $id;

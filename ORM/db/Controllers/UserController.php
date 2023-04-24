@@ -1,8 +1,11 @@
 <?php
-include_once 'Controller.php';
-include_once 'ORM/Objects/Subscription.php';
 
-class SubscriptionController extends Controller
+namespace Controllers;
+
+include_once 'Controller.php';
+include_once 'ORM/db/Objects/User.php';
+
+class UserController extends Controller
 {
 
     public function insert($title)
@@ -13,10 +16,12 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `subscription`(`name`, `price`) VALUES ('?', '?')");
-            $name = trim($title->getName());
-            $price = trim($title->getPrice());
-            $insert->bind_param("ssd", $name, $price);
+            $insert = $connection->prepare("INSERT INTO `user`(`id_subscription`, `login`, `password`, `balance`) VALUES ('?','?','?','?','?')");
+            $id_subscription = trim($title->getIdSubscription());
+            $login = trim($title->getLogin());
+            $password = trim($title->getPassword());
+            $balance = trim($title->getBalance());
+            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance);
             $insert->execute();
         } finally {
             $connection->close();
@@ -31,7 +36,7 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `subscription` WHERE `id_subscription`='?'");
+            $delete = $connection->prepare("DELETE FROM `user` WHERE `id`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -47,12 +52,14 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `subscription` SET `Name`='?',`Price`='?' WHERE `id_subscription`='?'");
-            $name = trim($title->getName());
-            $price = trim($title->getPrice());
-            $id_subscription = trim(($title->getIdSubscription()));
-            $update->bind_param("ssdi", $name, $price, $id_subscription);
-            $update->execute();
+            $insert = $connection->prepare("UPDATE `user` SET `id_subscription`='?',`login`='?',`password`='?',`balance`='?' WHERE `id`='?'");
+            $id_subscription = trim($title->getIdSubscription());
+            $login = trim($title->getLogin());
+            $password = trim($title->getPassword());
+            $balance = trim($title->getBalance());
+            $id = trim($title->getId());
+            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance, $id);
+            $insert->execute();
         } finally {
             $connection->close();
         }
@@ -66,7 +73,7 @@ class SubscriptionController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `subscription`");
+            $select = $connection->prepare("SELECT * FROM `user`");
             $select->get_result();
         } finally {
             $connection->close();

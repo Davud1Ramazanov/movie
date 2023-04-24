@@ -1,5 +1,7 @@
 <?php
 
+namespace Controllers;
+
 abstract class Controller
 {
     private $db_controller;

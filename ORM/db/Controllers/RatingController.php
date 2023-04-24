@@ -1,8 +1,11 @@
 <?php
-include_once 'Controller.php';
-include_once 'ORM/Objects/Role.php';
 
-class RoleController extends Controller
+namespace Controllers;
+
+include_once 'Controller.php';
+include_once 'ORM/db/Objects/Rating.php';
+
+class RatingController extends Controller
 {
 
     public function insert($title)
@@ -13,9 +16,10 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `role`(`role`) VALUES ('?')");
-            $role = trim($title->getRole());
-            $insert->bind_param("ssd", $role);
+            $insert = $connection->prepare("INSERT INTO `rating`(`likes`, `dislikes`) VALUES ('?','?')");
+            $likes = trim($title->getLikes());
+            $dislikes = trim($title->getDislikes());
+            $insert->bind_param("ssd", $likes, $dislikes);
             $insert->execute();
         } finally {
             $connection->close();
@@ -30,7 +34,7 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `role` WHERE `id_role`='?'");
+            $delete = $connection->prepare("DELETE FROM `rating` WHERE `id_rating`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -46,10 +50,11 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `role` SET `role`='?' WHERE `id_role`='?'");
-            $role = trim($title->getRole());
-            $id_role = trim($title->getIdRole());
-            $update->bind_param("ssdi", $role, $id_role);
+            $update = $connection->prepare("UPDATE `rating` SET `likes`='?',`dislikes`='?' WHERE `id_rating`='?'");
+            $likes = trim($title->getLikes());
+            $dislikes = trim($title->getDislikes());
+            $id_rating = trim($title->getIdRating());
+            $update->bind_param("ssd", $likes, $dislikes, $id_rating);
             $update->execute();
         } finally {
             $connection->close();
@@ -64,7 +69,7 @@ class RoleController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `role`");
+            $select = $connection->prepare("SELECT * FROM `rating`");
             $select->get_result();
         } finally {
             $connection->close();

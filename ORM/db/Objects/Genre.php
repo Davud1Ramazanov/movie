@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Genre
 {
     private int $id_genre;

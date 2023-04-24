@@ -1,8 +1,11 @@
 <?php
-include_once 'Controller.php';
-include_once 'ORM/Objects/Member.php';
 
-class MemberController extends Controller
+namespace Controllers;
+
+include_once 'Controller.php';
+include_once 'ORM/db/Objects/Subscription.php';
+
+class SubscriptionController extends Controller
 {
 
     public function insert($title)
@@ -13,11 +16,10 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `member`(`role`, `first_name`, `last_name`) VALUES ('?', '?','?')");
-            $role = trim($title->getRole());
-            $first_name = trim($title->getFirstName());
-            $last_name = trim($title->getLastName());
-            $insert->bind_param("ssd", $role, $first_name, $last_name);
+            $insert = $connection->prepare("INSERT INTO `subscription`(`name`, `price`) VALUES ('?', '?')");
+            $name = trim($title->getName());
+            $price = trim($title->getPrice());
+            $insert->bind_param("ssd", $name, $price);
             $insert->execute();
         } finally {
             $connection->close();
@@ -32,7 +34,7 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `member` WHERE `id`='?'");
+            $delete = $connection->prepare("DELETE FROM `subscription` WHERE `id_subscription`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -48,12 +50,11 @@ class MemberController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `member` SET `role`='?',`first_name`='?',`last_name`='?' WHERE `id_member`='?'");
-            $role = trim($title->getRole());
-            $first_name = trim($title->getFirstName());
-            $last_name = trim($title->getLastName());
-            $id_member = trim($title->getIdMember());
-            $update->bind_param("ssdi", $role, $first_name, $last_name, $id_member);
+            $update = $connection->prepare("UPDATE `subscription` SET `Name`='?',`Price`='?' WHERE `id_subscription`='?'");
+            $name = trim($title->getName());
+            $price = trim($title->getPrice());
+            $id_subscription = trim(($title->getIdSubscription()));
+            $update->bind_param("ssdi", $name, $price, $id_subscription);
             $update->execute();
         } finally {
             $connection->close();
@@ -63,15 +64,14 @@ class MemberController extends Controller
     public function select()
     {
         $connection = null;
-        try{
+        try {
             $connection = new mysqli("localhost", "root", "", "movie_db");
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `member`");
+            $select = $connection->prepare("SELECT * FROM `subscription`");
             $select->get_result();
-        }
-        finally{
+        } finally {
             $connection->close();
         }
     }

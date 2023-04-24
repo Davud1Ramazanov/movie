@@ -1,7 +1,11 @@
 <?php
+
+namespace Controllers;
+
 include_once 'Controller.php';
-include_once 'ORM/Objects/Rating.php';
-class RatingController extends Controller
+include_once 'ORM/db/Objects/Member.php';
+
+class MemberController extends Controller
 {
 
     public function insert($title)
@@ -12,10 +16,11 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `rating`(`likes`, `dislikes`) VALUES ('?','?')");
-            $likes = trim($title->getLikes());
-            $dislikes = trim($title->getDislikes());
-            $insert->bind_param("ssd", $likes, $dislikes);
+            $insert = $connection->prepare("INSERT INTO `member`(`role`, `first_name`, `last_name`) VALUES ('?', '?','?')");
+            $role = trim($title->getRole());
+            $first_name = trim($title->getFirstName());
+            $last_name = trim($title->getLastName());
+            $insert->bind_param("ssd", $role, $first_name, $last_name);
             $insert->execute();
         } finally {
             $connection->close();
@@ -30,7 +35,7 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `rating` WHERE `id_rating`='?'");
+            $delete = $connection->prepare("DELETE FROM `member` WHERE `id`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -46,11 +51,12 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `rating` SET `likes`='?',`dislikes`='?' WHERE `id_rating`='?'");
-            $likes = trim($title->getLikes());
-            $dislikes = trim($title->getDislikes());
-            $id_rating = trim($title->getIdRating());
-            $update->bind_param("ssd", $likes, $dislikes, $id_rating);
+            $update = $connection->prepare("UPDATE `member` SET `role`='?',`first_name`='?',`last_name`='?' WHERE `id_member`='?'");
+            $role = trim($title->getRole());
+            $first_name = trim($title->getFirstName());
+            $last_name = trim($title->getLastName());
+            $id_member = trim($title->getIdMember());
+            $update->bind_param("ssdi", $role, $first_name, $last_name, $id_member);
             $update->execute();
         } finally {
             $connection->close();
@@ -65,7 +71,7 @@ class RatingController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `rating`");
+            $select = $connection->prepare("SELECT * FROM `member`");
             $select->get_result();
         } finally {
             $connection->close();

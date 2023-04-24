@@ -1,6 +1,9 @@
 <?php
+
+namespace Controllers;
+
 include_once 'Controller.php';
-include_once 'ORM/Objects/Film.php';
+include_once 'ORM/db/Objects/Film.php';
 
 class FilmController extends Controller
 {

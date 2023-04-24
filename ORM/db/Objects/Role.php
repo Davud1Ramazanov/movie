@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Role
 {
     private int $id_role;

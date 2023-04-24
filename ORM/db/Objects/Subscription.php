@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Subscription
 {
     private int $id_subscription;

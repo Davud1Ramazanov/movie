@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Rating
 {
     private int $id_rating;

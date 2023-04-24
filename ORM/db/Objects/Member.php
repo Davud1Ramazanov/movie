@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class Member
 {
     private int $id_member;

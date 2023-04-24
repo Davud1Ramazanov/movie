@@ -1,9 +1,11 @@
 <?php
 
-include_once 'Controller.php';
-include_once 'ORM/Objects/Genre.php';
+namespace Controllers;
 
-class GenreController extends Controller
+include_once 'Controller.php';
+include_once 'ORM/db/Objects/Role.php';
+
+class RoleController extends Controller
 {
 
     public function insert($title)
@@ -14,9 +16,9 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `genre`(`genre`) VALUES ('?')");
-            $genre = trim($title->getGenre());
-            $insert->bind_param("ssd", $genre);
+            $insert = $connection->prepare("INSERT INTO `role`(`role`) VALUES ('?')");
+            $role = trim($title->getRole());
+            $insert->bind_param("ssd", $role);
             $insert->execute();
         } finally {
             $connection->close();
@@ -31,7 +33,7 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $delete = $connection->prepare("DELETE FROM `genre` WHERE `id_genre`='?'");
+            $delete = $connection->prepare("DELETE FROM `role` WHERE `id_role`='?'");
             $delete->bind_param("i", $id);
             $delete->execute();
         } finally {
@@ -47,10 +49,10 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $update = $connection->prepare("UPDATE `genre` SET `genre`='?' WHERE `id_genre`='?'");
-            $genre = trim($title->getGenre());
-            $id_genre = trim($title->getIdGenre());
-            $update->bind_param("ssdi", $genre, $id_genre);
+            $update = $connection->prepare("UPDATE `role` SET `role`='?' WHERE `id_role`='?'");
+            $role = trim($title->getRole());
+            $id_role = trim($title->getIdRole());
+            $update->bind_param("ssdi", $role, $id_role);
             $update->execute();
         } finally {
             $connection->close();
@@ -65,9 +67,8 @@ class GenreController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $select = $connection->prepare("SELECT * FROM `genre`");
+            $select = $connection->prepare("SELECT * FROM `role`");
             $select->get_result();
-
         } finally {
             $connection->close();
         }

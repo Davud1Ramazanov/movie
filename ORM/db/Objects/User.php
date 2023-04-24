@@ -1,5 +1,7 @@
 <?php
 
+namespace Objects;
+
 class User
 {
     private int $id;
