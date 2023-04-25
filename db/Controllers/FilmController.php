@@ -2,10 +2,10 @@
 
 namespace db\Controllers;
 
-use Controllers\mysqli;
 
-include_once 'Controller.php';
-include_once 'db/Objects/Film.php';
+require_once 'Controller.php';
+require_once 'db/Objects/Film.php';
+require_once 'db/DB.php';
 
 class FilmController extends Controller
 {
@@ -82,6 +82,21 @@ class FilmController extends Controller
                 echo 'Error';
             }
             $select = $connection->prepare("SELECT * FROM `film`");
+            $result = $select->get_result();
+        } finally {
+            $connection->close();
+        }
+    }
+
+    public function selectById($id)
+    {
+        $connection = null;
+        try {
+            $connection = $this->db->connect();
+            if ($connection->connect_error) {
+                echo 'Error';
+            }
+            $select = $connection->prepare("SELECT * FROM `film` WHERE `$id`");
             $result = $select->get_result();
         } finally {
             $connection->close();

@@ -4,8 +4,9 @@ namespace db\Controllers;
 
 use Controllers\mysqli;
 
-include_once 'Controller.php';
-include_once 'db/Objects/Member.php';
+require_once 'Controller.php';
+require_once 'db/Objects/Member.php';
+require_once 'db/DB.php';
 
 class MemberController extends Controller
 {
@@ -75,6 +76,21 @@ class MemberController extends Controller
             }
             $select = $connection->prepare("SELECT * FROM `member`");
             $select->get_result();
+        } finally {
+            $connection->close();
+        }
+    }
+
+    public function selectById($id)
+    {
+        $connection = null;
+        try {
+            $connection = $this->db->connect();
+            if ($connection->connect_error) {
+                echo 'Error';
+            }
+            $select = $connection->prepare("SELECT * FROM `member` WHERE `$id`");
+            $result = $select->get_result();
         } finally {
             $connection->close();
         }

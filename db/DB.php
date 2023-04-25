@@ -1,6 +1,6 @@
 <?php
-
-class db
+namespace db;
+class DB
 {
     private const hostname = "localhost";
     private const username = "root";

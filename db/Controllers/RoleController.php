@@ -4,8 +4,9 @@ namespace db\Controllers;
 
 use Controllers\mysqli;
 
-include_once 'Controller.php';
-include_once 'db/Objects/Role.php';
+require_once 'Controller.php';
+require_once 'db/Objects/Role.php';
+require_once 'db/DB.php';
 
 class RoleController extends Controller
 {
@@ -71,6 +72,21 @@ class RoleController extends Controller
             }
             $select = $connection->prepare("SELECT * FROM `role`");
             $select->get_result();
+        } finally {
+            $connection->close();
+        }
+    }
+
+    public function selectById($id)
+    {
+        $connection = null;
+        try {
+            $connection = $this->db->connect();
+            if ($connection->connect_error) {
+                echo 'Error';
+            }
+            $select = $connection->prepare("SELECT * FROM `role` WHERE `$id`");
+            $result = $select->get_result();
         } finally {
             $connection->close();
         }
