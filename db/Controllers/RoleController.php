@@ -5,8 +5,8 @@ namespace db\Controllers;
 use Controllers\mysqli;
 
 require_once 'Controller.php';
-require_once 'db/Objects/Role.php';
-require_once 'db/DB.php';
+require_once './db/Objects/Role.php';
+require_once './db/DB.php';
 
 class RoleController extends Controller
 {
