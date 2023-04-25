@@ -1,11 +1,8 @@
 <?php
 
-namespace db\Controllers;
-
-
 require_once './Controller.php';
-require_once './db/Objects/Film.php';
-require_once './db/DB.php';
+require_once './ORM/Objects/Film.php';
+require_once './ORM/DB.php';
 
 class FilmController extends Controller
 {

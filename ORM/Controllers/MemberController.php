@@ -1,12 +1,12 @@
 <?php
 
-namespace db\Controllers;
+namespace ORM\Controllers;
 
 use Controllers\mysqli;
 
 require_once 'Controller.php';
-require_once './db/Objects/Member.php';
-require_once './db/DB.php';
+require_once './ORM/Objects/Member.php';
+require_once './ORM/DB.php';
 
 class MemberController extends Controller
 {

@@ -5,8 +5,8 @@ namespace db\Controllers;
 use Controllers\mysqli;
 
 require_once 'Controller.php';
-require_once './db/Objects/Rating.php';
-require_once './db/DB.php';
+require_once './ORM/Objects/Rating.php';
+require_once './ORM/DB.php';
 
 class RatingController extends Controller
 {
