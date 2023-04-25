@@ -1,5 +1,7 @@
 <?php
 
+namespace db\Controllers;
+
 abstract class Controller
 {
     private $db_controller;
@@ -16,6 +18,7 @@ abstract class Controller
     public abstract function update($title);
 
     public abstract function select();
+    public abstract function selectById($id);
 }
 
 ?>

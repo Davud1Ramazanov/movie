@@ -1,6 +1,12 @@
 <?php
-include_once 'Controller.php';
-include_once 'ORM/Objects/Member.php';
+
+namespace db\Controllers;
+
+use Controllers\mysqli;
+
+require_once 'Controller.php';
+require_once './db/Objects/Member.php';
+require_once './db/DB.php';
 
 class MemberController extends Controller
 {
@@ -9,7 +15,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -28,7 +34,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -44,7 +50,7 @@ class MemberController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -63,15 +69,29 @@ class MemberController extends Controller
     public function select()
     {
         $connection = null;
-        try{
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+        try {
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
             $select = $connection->prepare("SELECT * FROM `member`");
             $select->get_result();
+        } finally {
+            $connection->close();
         }
-        finally{
+    }
+
+    public function selectById($id)
+    {
+        $connection = null;
+        try {
+            $connection = $this->db->connect();
+            if ($connection->connect_error) {
+                echo 'Error';
+            }
+            $select = $connection->prepare("SELECT * FROM `member` WHERE `$id`");
+            $result = $select->get_result();
+        } finally {
             $connection->close();
         }
     }

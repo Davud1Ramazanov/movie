@@ -1,6 +1,13 @@
 <?php
-include_once 'Controller.php';
-include_once 'ORM/Objects/Rating.php';
+
+namespace db\Controllers;
+
+use Controllers\mysqli;
+
+require_once 'Controller.php';
+require_once './db/Objects/Rating.php';
+require_once './db/DB.php';
+
 class RatingController extends Controller
 {
 
@@ -8,7 +15,7 @@ class RatingController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -26,7 +33,7 @@ class RatingController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -42,7 +49,7 @@ class RatingController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
@@ -61,12 +68,27 @@ class RatingController extends Controller
     {
         $connection = null;
         try {
-            $connection = new mysqli("localhost", "root", "", "movie_db");
+            $connection = $this->db->connect();
             if ($connection->connect_error) {
                 echo 'Error';
             }
             $select = $connection->prepare("SELECT * FROM `rating`");
             $select->get_result();
+        } finally {
+            $connection->close();
+        }
+    }
+
+    public function selectById($id)
+    {
+        $connection = null;
+        try {
+            $connection = $this->db->connect();
+            if ($connection->connect_error) {
+                echo 'Error';
+            }
+            $select = $connection->prepare("SELECT * FROM `rating` WHERE `$id`");
+            $result = $select->get_result();
         } finally {
             $connection->close();
         }
