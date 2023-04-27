@@ -1,11 +1,16 @@
 <?php
 
+use db\DB;
+use db\Controllers\UserController;
 include_once './ORM/Objects/User.php';
 include_once './ORM/Controllers/UserController.php';
 
 class testUserController
 {
     private $controller;
+    public function __construct(){
+        $this->controller = new UserController(DB::getInstance());
+    }
     public function insertUser()
     {
         $user = new User(null, null, 'test_login', 'pass1245', null);
