@@ -1,12 +1,8 @@
 <?php
 
-namespace db\Controllers;
-
-use Controllers\mysqli;
-
-require_once 'Controller.php';
-require_once './ORM/Objects/Subscription.php';
-require_once './ORM/DB.php';
+require_once __DIR__.'/Controller.php';
+require_once __DIR__.'/../Objects/Subscription.php';
+require_once __DIR__.'/../DB.php';
 
 class SubscriptionController extends Controller
 {

@@ -1,12 +1,8 @@
 <?php
 
-namespace db\Controllers;
-
-use Controllers\mysqli;
-
-require_once 'Controller.php';
-require_once './ORM/Objects/User.php';
-require_once './ORM/DB.php';
+require_once __DIR__ . '/Controller.php';
+require_once __DIR__ . '/../Objects/User.php';
+require_once __DIR__ . '/../DB.php';
 
 class UserController extends Controller
 {
@@ -19,12 +15,12 @@ class UserController extends Controller
             if ($connection->connect_error) {
                 echo 'Error';
             }
-            $insert = $connection->prepare("INSERT INTO `user`(`id_subscription`, `login`, `password`, `balance`) VALUES ('?','?','?','?','?')");
+            $insert = $connection->prepare("INSERT INTO `user`(`id_subscription`, `login`, `password`, `balance`) VALUES ('?','?','?','?')");
             $id_subscription = trim($title->getIdSubscription());
             $login = trim($title->getLogin());
             $password = trim($title->getPassword());
             $balance = trim($title->getBalance());
-            $insert->bind_param("ssd", $id_subscription, $login, $password, $balance);
+            $insert->bind_param("issd", $id_subscription, $login, $password, $balance);
             $insert->execute();
         } finally {
             $connection->close();

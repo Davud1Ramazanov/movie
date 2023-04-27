@@ -1,12 +1,8 @@
 <?php
 
-namespace db\Controllers;
-
-use Controllers\mysqli;
-
-require_once 'Controller.php';
-require_once './ORM/Objects/Genre.php';
-require_once './ORM/DB.php';
+require_once __DIR__.'/Controller.php';
+require_once __DIR__.'/../Objects/Genre.php';
+require_once __DIR__.'/../DB.php';
 
 class GenreController extends Controller
 {

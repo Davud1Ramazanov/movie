@@ -8,7 +8,7 @@ class User
     private string $password;
     private int $balance;
 
-    public function __construct(int $id, int $id_subscription, string $login, string $password, int $balance)
+    public function __construct(int $id, int $id_subscription, string $login, string $password, string $balance)
     {
         $this->id = $id;
         $this->id_subscription = $id_subscription;

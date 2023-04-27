@@ -2,11 +2,11 @@
 
 abstract class Controller
 {
-    private $db_controller;
+    protected $db;
 
-    public function __construct($db_controller)
+    public function __construct($db)
     {
-        $this->db_controller = $db_controller;
+        $this->db = $db;
     }
 
     public abstract function insert($title);

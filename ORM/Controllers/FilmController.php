@@ -1,8 +1,8 @@
 <?php
 
-require_once './Controller.php';
-require_once './ORM/Objects/Film.php';
-require_once './ORM/DB.php';
+require_once __DIR__.'/Controller.php';
+require_once __DIR__.'/../Objects/Film.php';
+require_once __DIR__.'/../DB.php';
 
 class FilmController extends Controller
 {
